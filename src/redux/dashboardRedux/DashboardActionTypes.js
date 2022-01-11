@@ -1,0 +1,2 @@
+export const GET_DASHBOARD_DATA = 'GET_DASHBOARD_DATA';
+export const GET_ALL_PRODUCT = 'GET_ALL_PRODUCT';

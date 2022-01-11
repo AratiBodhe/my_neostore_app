@@ -19,16 +19,18 @@ import {AllProductCard} from '../components/AllProductsCard';
 import {wp, hp} from '../dimension/Dimension';
 import {getAllProducts} from '../utils/Constant';
 import {errorHandling} from '../utils/ErrorHandling';
-import {getAllProduct} from '../redux/authRedux/AuthAction';
+
 import {useDispatch} from 'react-redux';
 import {ActivityIndicatorComp} from '../components/ActivityIndicator';
+import {getAllProduct} from '../redux/dashboardRedux/DashboardAction';
+// import {getAllProduct} from '../redux/dashboardRedux/DashboardAction';
 
 export const AllProductsScreen = ({navigation}) => {
   const authSelector = useSelector(state => state.authReducer.authData);
   var token = authSelector.token;
   const getAllProductDispatch = useDispatch();
   const getAllProductSelector = useSelector(
-    state => state.authReducer.allProductData,
+    state => state.dashboardReducer.allProductData,
   );
   console.log('getAllProductSelector=>', getAllProductSelector);
   var colors = [];

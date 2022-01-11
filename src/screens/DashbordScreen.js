@@ -10,11 +10,12 @@ import {withBadge, Icon} from 'react-native-elements';
 import {DashboardCard} from '../components/DashboardCard';
 import {baseURL, getCart, getProfile} from '../utils/Constant';
 import {getDashboardURL} from '../utils/Constant';
-import {getUserProfile} from '../redux/authRedux/AuthAction';
-import {getUserCartData} from '../redux/authRedux/AuthAction';
+import {getUserProfile} from '../redux/profileRedux/profileAction';
+import {getUserCartData} from '../redux/cartRedux/CartAction';
 import {errorHandling} from '../utils/ErrorHandling';
 import {ActivityIndicatorComp} from '../components/ActivityIndicator';
-
+import {getDashboardData} from '../redux/dashboardRedux/DashboardAction';
+// import {getDashboardData} from '../redux/dashboardRedux/DashboardAction';
 export const DashboardScreen = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [products, setProducts] = useState([]);
@@ -22,8 +23,11 @@ export const DashboardScreen = () => {
   //  useSelector and useDispatch
   var authSelector = useSelector(state => state.authReducer.authData);
   var token = authSelector.token;
+  const dashboardDispatch = useDispatch();
+  const dashboardSelector = useSelector(state => state.dashboardReducer);
+  console.log('--------------------------------------', dashboardSelector);
   const cartDispatch = useDispatch();
-  const cartSelector = useSelector(state => state.authReducer.userCartData);
+  const cartSelector = useSelector(state => state.cartReducer.userCartData);
   var cartLength = cartSelector.length;
   // const userDataSelector = useSelector(state => state.authReducer.getUserData);
   const userDataDispatch = useDispatch();
@@ -54,6 +58,8 @@ export const DashboardScreen = () => {
         console.log('dashboard response', response);
         dashBoardData = response.data.productOfEachCategory;
         setProducts(dashBoardData);
+        // dashboardDispatch(getDashboardData(dashBoardData));
+        dashboardDispatch(getDashboardData(dashBoardData));
         setloading(false);
       })
       .catch(function (error) {

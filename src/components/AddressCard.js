@@ -4,7 +4,7 @@ import {Card, Divider, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {wp, hp} from '../dimension/Dimension';
 import {useDispatch} from 'react-redux';
-import {defaultUserAddress} from '../redux/authRedux/AuthAction';
+import {defaultUserAddress} from '../redux/addressRedux/AddressAction';
 import {useSelector} from 'react-redux';
 import {StyleSheet} from 'react-native';
 
@@ -19,7 +19,7 @@ export const AddressCardComponent = ({
   const navigation = useNavigation();
 
   const defaultAddressDispatch = useDispatch();
-  const cartSelector = useSelector(state => state.authReducer.userCartData);
+  const cartSelector = useSelector(state => state.cartReducer.userCartData);
   return (
     <View style={{flex: 1}}>
       <Card

@@ -10,7 +10,7 @@ import {Appbar, Card, Divider, List} from 'react-native-paper';
 import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
-import {getUserOrderHistory} from '../redux/authRedux/AuthAction';
+import {getUserOrderHistory} from '../redux/orderDataRedux/OrderDataAction';
 import {wp, hp} from '../dimension/Dimension';
 
 export const OrderHistoryScreen = ({navigation}) => {
@@ -19,7 +19,7 @@ export const OrderHistoryScreen = ({navigation}) => {
   const userOrderHistoryDispatch = useDispatch();
 
   var orderHistorySelector = useSelector(
-    state => state.authReducer.userOrderHistory,
+    state => state.orderDataReducer.userOrderHistory,
   );
   console.log('ORDER HISTORY response from redux=>', orderHistorySelector);
 

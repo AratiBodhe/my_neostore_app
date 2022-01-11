@@ -17,11 +17,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useIsFocused} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {profileImage} from '../utils/Constant';
-import {getUserProfile} from '../redux/authRedux/AuthAction';
+// import {getUserProfile} from '../redux/authRedux/AuthAction';
+import {getUserProfile} from '../redux/profileRedux/profileAction';
 
 export const MyAccountScreen = ({navigation}) => {
   const authSelector = useSelector(state => state.authReducer);
-  const userDataSelector = useSelector(state => state.authReducer.getUserData);
+  const userDataSelector = useSelector(
+    state => state.profileReducer.getUserData,
+  );
   var profile = userDataSelector.profilePic;
   // var authSelector = useSelector(state => state.authReducer.authData);
   var token = authSelector.authData.token;

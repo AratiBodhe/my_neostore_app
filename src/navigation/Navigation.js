@@ -62,7 +62,7 @@ const HomeStack = () => {
 const AuthStack = () => {
   return (
     <StackScreen.Navigator screenOptions={{headerShown: false}}>
-      <StackScreen.Screen name="Splash" component={SplashScreen} />
+      {/* <StackScreen.Screen name="Splash" component={SplashScreen} /> */}
       <StackScreen.Screen name="Login" component={LoginScreen} />
       <StackScreen.Screen
         name="Dashboard"

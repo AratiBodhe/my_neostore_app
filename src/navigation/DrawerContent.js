@@ -17,13 +17,15 @@ import {profileImage} from '../utils/Constant';
 export function DrawerContent({navigation, props}) {
   const authSelector = useSelector(state => state.authReducer);
   const authDispatch = useDispatch();
-  const userDataSelector = useSelector(state => state.authReducer.getUserData);
+  const userDataSelector = useSelector(
+    state => state.profileReducer.getUserData,
+  );
   var fName = userDataSelector.firstName;
   var lName = userDataSelector.secondName;
   var profile = userDataSelector.profilePic;
   /* console.log('this is required');
   console.log(authSignUpSelector.authReducer.signUpData); */
-  const cartSelector = useSelector(state => state.authReducer.userCartData);
+  const cartSelector = useSelector(state => state.cartReducer.userCartData);
   var cartLength = cartSelector.length;
 
   var forSignOut = {...authSelector, isLogIn: false};

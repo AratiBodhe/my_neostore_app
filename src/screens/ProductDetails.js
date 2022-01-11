@@ -41,7 +41,7 @@ export const ProductDetailsScreen = ({route, navigation}) => {
 
   var authSelector = useSelector(state => state.authReducer.authData);
   var token = authSelector.token;
-  const cartSelector = useSelector(state => state.authReducer.userCartData);
+  const cartSelector = useSelector(state => state.cartReducer.userCartData);
   var cartLength = cartSelector.length;
   const [productDetails, setproductDetails] = useState([]);
   const [qty, setQty] = useState(1);

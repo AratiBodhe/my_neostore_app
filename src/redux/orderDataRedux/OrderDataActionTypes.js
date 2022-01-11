@@ -1,0 +1,1 @@
+export const USER_ORDER_HISTORY = 'USER_ORDER_HISTORY';

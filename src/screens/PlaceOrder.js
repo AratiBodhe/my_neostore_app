@@ -14,25 +14,24 @@ import {useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
 import {wp, hp} from '../dimension/Dimension';
 import {PlaceOrderCard} from '../components/PlaceOrderCard';
-import {defaultUserAddress} from '../redux/authRedux/AuthAction';
 import {
   baseURL,
   getProceedToBuy,
   getProceedToCheckOut,
   postPlaceOrder,
 } from '../utils/Constant';
-import {useDispatch} from 'react-redux';
 import {errorHandling} from '../utils/ErrorHandling';
 
 export const PlaceOrderScreen = ({navigation}) => {
   //useSelector
-  const defaultAddressDispatch = useDispatch();
   const defaultAddressSelector = useSelector(
-    state => state.authReducer.defaultAddress,
+    state => state.addressReducer.defaultAddress,
   );
   const authSelector = useSelector(state => state.authReducer.authData);
-  const cartSelector = useSelector(state => state.authReducer.userCartData);
-  const userDataSelector = useSelector(state => state.authReducer.getUserData);
+  const cartSelector = useSelector(state => state.cartReducer.userCartData);
+  const userDataSelector = useSelector(
+    state => state.profileReducer.getUserData,
+  );
   var fName = userDataSelector.firstName;
   var lName = userDataSelector.secondName;
   var cartId = cartSelector._id;
@@ -57,7 +56,6 @@ export const PlaceOrderScreen = ({navigation}) => {
       .then(function (response) {
         // console.log('place order screen  get addresses response', response);
         let data = response.data.Addresses[0];
-        // defaultAddressDispatch(defaultUserAddress(data));
       })
       .catch(function (e) {
         console.log(e);

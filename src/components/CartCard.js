@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 import {wp, hp} from '../dimension/Dimension';
 import {updateUserCart} from '../redux/authRedux/AuthAction';
 import {productImage} from '../utils/Constant';
-export const CartCardComponent = ({...props}) => {
+export const CartCardComponent = ({id, ...props}) => {
   const [updateCart, setupdateCart] = useState([]);
   const cartSelector = useSelector(state => state.authReducer.userCartData);
 
@@ -20,16 +20,15 @@ export const CartCardComponent = ({...props}) => {
   const removeProduct = () => {
     setQty(qty - 1);
   };
-  // let itemId = props.itemId;
-  // console.log('ind=>', itemId);
 
   const updateCartDispatch = useDispatch();
   const updateCartSelector = useSelector(state => state.authReducer.updateCart);
-
+  console.log(updateCartSelector);
+  console.log('updateCartSelector=>', updateCartSelector);
   const deleteItem = index => {
-    console.log('arrived');
+    console.log('arrived', toString(index));
     let newArray = cartSelector.productDetails;
-    newArray.splice(index, 1);
+    newArray.splice(id, 1);
     updateCartDispatch(updateUserCart(newArray));
     setupdateCart(newArray);
   };

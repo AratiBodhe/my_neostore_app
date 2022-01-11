@@ -6,7 +6,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
 import {CartCardComponent} from '../components/CartCard';
 import {wp, hp} from '../dimension/Dimension';
-import {getUserCartData} from '../redux/authRedux/AuthAction';
+// import {getUserCartData} from '../redux/authRedux/AuthAction';
+import {getUserCartData} from '../redux/cartRedux/CartAction';
 import {baseURL, getCart} from '../utils/Constant';
 
 export const CartScreen = ({navigation}) => {
@@ -14,7 +15,7 @@ export const CartScreen = ({navigation}) => {
   var token = authSelector.token;
 
   const cartDispatch = useDispatch();
-  const cartSelector = useSelector(state => state.authReducer.userCartData);
+  const cartSelector = useSelector(state => state.cartReducer.userCartData);
   console.log('cartSelector=>', cartSelector);
 
   const isFocused = useIsFocused();

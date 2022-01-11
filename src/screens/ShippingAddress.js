@@ -15,7 +15,7 @@ import {AddressCardComponent} from '../components/AddressCard';
 import {wp, hp} from '../dimension/Dimension';
 import {useSelector, useDispatch} from 'react-redux';
 import {ErrorHandling} from '../utils/ErrorHandling';
-import {getUserAddresses} from '../redux/authRedux/AuthAction';
+import {getUserAddresses} from '../redux/addressRedux/AddressAction';
 import {baseURL, getCustomeAddresses} from '../utils/Constant';
 import {TouchableOpacity} from 'react-native';
 
@@ -23,14 +23,14 @@ export const ShippingAddressScreen = ({navigation}) => {
   //USESTTES DISPATCH
   const authSelector = useSelector(state => state.authReducer);
   var token = authSelector.authData.token;
-  const cartSelector = useSelector(state => state.authReducer.userCartData);
+  const cartSelector = useSelector(state => state.cartReducer.userCartData);
   console.log('cartSelector=>', cartSelector);
   const defaultAddressSelector = useSelector(
-    state => state.authReducer.defaultAddress,
+    state => state.addressReducer.defaultAddress,
   );
   const addressDispatch = useDispatch();
   const addressSelector = useSelector(
-    state => state.authReducer.userAddressesData,
+    state => state.addressReducer.userAddressesData,
   );
   console.log('addressSelector in shipping Address=>', addressSelector);
   const isFocused = useIsFocused();

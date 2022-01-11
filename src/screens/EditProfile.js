@@ -24,7 +24,9 @@ import {errorHandling} from '../utils/ErrorHandling';
 
 export const EditProfileScreen = ({navigation}) => {
   const authSelector = useSelector(state => state.authReducer);
-  const userDataSelector = useSelector(state => state.authReducer.getUserData);
+  const userDataSelector = useSelector(
+    state => state.profileReducer.getUserData,
+  );
 
   const Email = authSelector.authData.userEmail;
   const token = authSelector.authData.token;
