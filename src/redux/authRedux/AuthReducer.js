@@ -19,7 +19,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         authData: action.authDataResponse,
       };
-    case AUTH_LOG_OUT:
+    /*   case AUTH_LOG_OUT:
       return {
         ...state,
         authData: action.authDataSignOutRes,
@@ -28,7 +28,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         updateCart: action.updatedCart,
-      };
+      }; */
 
     default:
       return state;

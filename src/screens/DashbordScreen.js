@@ -17,35 +17,55 @@ import {ActivityIndicatorComp} from '../components/ActivityIndicator';
 import {getDashboardData} from '../redux/dashboardRedux/DashboardAction';
 // import {getDashboardData} from '../redux/dashboardRedux/DashboardAction';
 export const DashboardScreen = () => {
-  const [searchQuery, setSearchQuery] = React.useState('');
   const [products, setProducts] = useState([]);
   const [loading, setloading] = useState(true);
+  const [searchProduct, setsearchProduct] = useState();
+  const [item, setitem] = useState();
+
   //  useSelector and useDispatch
   var authSelector = useSelector(state => state.authReducer.authData);
   var token = authSelector.token;
   const dashboardDispatch = useDispatch();
   const dashboardSelector = useSelector(state => state.dashboardReducer);
-  console.log('--------------------------------------', dashboardSelector);
+  // console.log('--------------------------------------', dashboardSelector);
   const cartDispatch = useDispatch();
   const cartSelector = useSelector(state => state.cartReducer.userCartData);
   var cartLength = cartSelector.length;
   // const userDataSelector = useSelector(state => state.authReducer.getUserData);
   const userDataDispatch = useDispatch();
+
   //variables
   var dashBoardData = [];
   const isFocused = useIsFocused();
   const BadgedIcon = withBadge(cartLength)(Icon);
   const navigation = useNavigation();
   React.useEffect(() => {
+    // userDataDispatch(getUserProfile());
     dashboardAxios();
   }, [isFocused]);
   //filter method to search the products in the list
-  const onChangeSearch = searchQuery => {
-    setSearchQuery(searchQuery);
-    const newData = products.filter(item => {
-      return item.name.search(searchQuery) > -1;
-    });
-    setProducts(newData);
+  const onChangeSearch = text => {
+    if (text == '') {
+      setitem(undefined);
+    } else {
+      setsearchProduct(text);
+      console.log(text);
+      axios
+        .post(
+          `https://nameless-savannah-21991.herokuapp.com/find/${searchProduct}`,
+          {keyword: searchProduct},
+          {
+            headers: {Authorization: `Bearer ${token}`},
+          },
+        )
+        .then(resp => {
+          console.log('Search for products details resp ++++++++ ', resp);
+          setitem(resp.data.searchResult[0]);
+        })
+        .catch(error => {
+          console.log('Details error msg***********', error);
+        });
+    }
   };
 
   //API TO GET DASHBOARD DATA
@@ -64,6 +84,7 @@ export const DashboardScreen = () => {
       })
       .catch(function (error) {
         errorHandling(error);
+        setloading(false);
       });
 
     axios
@@ -131,29 +152,39 @@ export const DashboardScreen = () => {
           <View>
             <Searchbar
               placeholder="Search For Products"
-              value={searchQuery}
-              onChangeText={searchQuery => {
-                onChangeSearch(searchQuery);
+              onChangeText={text => {
+                onChangeSearch(text);
               }}
               style={DashboardStyl.searchBar}
             />
           </View>
+
           <View>
             <Text style={DashboardStyl.topProducts}>Top Products For You</Text>
           </View>
-          <FlatList
-            style={{flex: 1}}
-            data={products}
-            renderItem={({item}) => (
-              <DashboardCard
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                rating={item.rating}
-                id={item.id}
-              />
-            )}
-          />
+          {item == undefined ? (
+            <FlatList
+              style={{flex: 1}}
+              data={products}
+              renderItem={({item}) => (
+                <DashboardCard
+                  name={item.name}
+                  price={item.price}
+                  image={item.image}
+                  rating={item.rating}
+                  id={item.id}
+                />
+              )}
+            />
+          ) : (
+            <DashboardCard
+              name={item.name}
+              price={item.price}
+              image={item.image}
+              rating={item.rating}
+              id={item.id}
+            />
+          )}
         </>
       )}
     </View>

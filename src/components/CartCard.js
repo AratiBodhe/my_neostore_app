@@ -21,20 +21,6 @@ export const CartCardComponent = ({id, ...props}) => {
     setQty(qty - 1);
   };
 
-  const updateCartDispatch = useDispatch();
-  const updateCartSelector = useSelector(state => state.authReducer.updateCart);
-  console.log(updateCartSelector);
-  console.log('updateCartSelector=>', updateCartSelector);
-  const deleteItem = index => {
-    console.log('arrived', toString(index));
-    let newArray = cartSelector.productDetails;
-    newArray.splice(id, 1);
-    updateCartDispatch(updateUserCart(newArray));
-    setupdateCart(newArray);
-  };
-  /*  console.log('updateCartSelector=>', updateCartSelector);
-  console.log('updateCart=>', updateCart); */
-
   return (
     <View style={{flex: 1}}>
       <Card style={CartCardStyl.card}>
@@ -81,10 +67,7 @@ export const CartCardComponent = ({id, ...props}) => {
                   marginVertical: hp('1%'),
                 }}>
                 <Title style={{width: wp('30%')}}>$ {props.total} </Title>
-                <TouchableOpacity
-                  onPress={index => {
-                    deleteItem(index);
-                  }}>
+                <TouchableOpacity>
                   <MaterialIcons
                     name="delete"
                     size={35}

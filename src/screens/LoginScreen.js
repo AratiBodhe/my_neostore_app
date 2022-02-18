@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  TouchableHighlight,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {HelperTextComponent} from '../components/HelperText';
@@ -45,9 +46,10 @@ export const LoginScreen = ({navigation}) => {
         console.log('LOGIN response=======>', response);
         var result = response.data;
         const {message, userId, token} = result;
+        var userToken = response.data.token;
         result = {
           ...result,
-          isLogIn: true,
+          isLogIn: userToken,
           userEmail: text.email,
         };
         authDispatch(userLogInAction(result));
@@ -76,13 +78,15 @@ export const LoginScreen = ({navigation}) => {
             handleOnChangeText(value, 'password');
           }}
         />
-        <TouchableOpacity
+        <TouchableHighlight
           onPress={() => {
             onLogin();
           }}
-          style={Loginstyles.loginBtn}>
+          style={Loginstyles.loginBtn}
+          underlayColor="white"
+          activeOpacity={0.9}>
           <Text style={Loginstyles.loginBtnTxt}>Login</Text>
-        </TouchableOpacity>
+        </TouchableHighlight>
 
         <TouchableOpacity
           onPress={() => {
@@ -91,14 +95,15 @@ export const LoginScreen = ({navigation}) => {
           <Text style={Loginstyles.signupTxt}>Forgot Password ?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        <TouchableHighlight
           onPress={() => {
             navigation.navigate('SignUp');
-          }}>
+          }}
+          underlayColor="lightblue">
           <Text style={Loginstyles.signupTxt}>
             Don't have an account ? Sign Up
           </Text>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     </ScrollView>
   );

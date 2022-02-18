@@ -34,6 +34,7 @@ export const MyAccountScreen = ({navigation}) => {
 
   React.useEffect(() => {
     myAccountAxios();
+    // dispatch(getUserProfile());
   }, [isFocused]);
 
   const myAccountAxios = () => {

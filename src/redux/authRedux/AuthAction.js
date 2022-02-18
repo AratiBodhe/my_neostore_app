@@ -5,11 +5,11 @@ export const userLogInAction = authDataResponse => ({
   authDataResponse,
 });
 
-export const userLogOutAction = authDataSignOutRes => ({
+/* export const userLogOutAction = authDataSignOutRes => ({
   type: AUTH_LOG_OUT,
   authDataSignOutRes,
 });
 export const updateUserCart = ({updatedCart}) => ({
   type: UPDATE_CART,
   updatedCart,
-});
+}); */

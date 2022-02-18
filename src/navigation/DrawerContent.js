@@ -11,7 +11,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import {withBadge, Icon} from 'react-native-elements';
 import {wp, hp} from '../dimension/Dimension';
-import {userLogOutAction} from '../redux/authRedux/AuthAction';
+import {userLogInAction} from '../redux/authRedux/AuthAction';
 import {profileImage} from '../utils/Constant';
 
 export function DrawerContent({navigation, props}) {
@@ -28,7 +28,7 @@ export function DrawerContent({navigation, props}) {
   const cartSelector = useSelector(state => state.cartReducer.userCartData);
   var cartLength = cartSelector.length;
 
-  var forSignOut = {...authSelector, isLogIn: false};
+  var forSignOut = {...authSelector, isLogIn: null};
   const BadgedIcon = withBadge(cartLength)(Icon);
 
   return (
@@ -231,7 +231,7 @@ export function DrawerContent({navigation, props}) {
             label="Sign Out"
             active={true}
             onPress={() => {
-              authDispatch(userLogOutAction(forSignOut));
+              authDispatch(userLogInAction(forSignOut));
             }}
           />
         </Drawer.Section>

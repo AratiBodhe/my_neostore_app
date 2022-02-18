@@ -59,7 +59,7 @@ export const CartScreen = ({navigation}) => {
       {cartLength != 0 ? (
         <FlatList
           style={{flex: 1}}
-          keyExtractor={(index, item) => item.id}
+          keyExtractor={(index, item) => index.toString()}
           data={cartSelector.productDetails}
           renderItem={({item}) => (
             <CartCardComponent

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,14 @@ import {
   Modal,
   Alert,
   Image,
+  Button,
 } from 'react-native';
 import {Avatar, Appbar, FAB} from 'react-native-paper';
 import {useSelector} from 'react-redux';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {TextInputComponent} from '../components/TextInput';
@@ -21,6 +24,7 @@ import {wp, hp} from '../dimension/Dimension';
 import ImagePicker from 'react-native-image-crop-picker';
 import {baseURL, postUpdateProfile, profileImage} from '../utils/Constant';
 import {errorHandling} from '../utils/ErrorHandling';
+import {BottomSheetScreen} from '../components/BottomSheet';
 
 export const EditProfileScreen = ({navigation}) => {
   const authSelector = useSelector(state => state.authReducer);
@@ -34,7 +38,7 @@ export const EditProfileScreen = ({navigation}) => {
   var phone = mobNumber.toString();
   var profile = userDataSelector.profilePic;
   // console.log('userdata=>', profile);
-
+  const rbRef = useRef();
   const [isModalVisible, setisModalVisible] = useState(false);
   const [newImage, setnewImage] = useState({});
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -84,6 +88,18 @@ export const EditProfileScreen = ({navigation}) => {
       setNewPicture();
     });
   };
+  const selectPicFromCamera = () => {
+    console.warn('aarive in image picker');
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      setnewImage(image);
+      setNewPicture();
+    });
+  };
   const setNewPicture = () => {
     const config = {
       headers: {Authorization: `Bearer ${token}`},
@@ -91,11 +107,16 @@ export const EditProfileScreen = ({navigation}) => {
     console.log(' arrive in set new pic');
     const imageData = new FormData();
     imageData.append('profile-pic', {
-      uri: newImage.path,
+      /*  uri: newImage.path,
       type: newImage.mime,
       name: 'image.jpg',
-      filename: '5quhhz.jpg',
+      filename: '5quhhz.jpg', */
+      uri: newImage.path,
+      type: newImage.mime,
+      name: newImage.path.replace(/^.*[\\\/]/, ''),
+      filename: newImage.path.replace(/^.*[\\\/]/, ''),
     });
+
     axios
       .post(
         'https://nameless-savannah-21991.herokuapp.com/updateProfilePic',
@@ -158,14 +179,99 @@ export const EditProfileScreen = ({navigation}) => {
             source={{uri: `${profileImage}${profile}`}}
             style={EditProfileStyl.image}></Avatar.Image>
         </TouchableOpacity>
-        <AntDesign
+        {/* <AntDesign
           name="pluscircle"
           size={25}
           style={EditProfileStyl.plusIcon}
           onPress={() => {
             selectImage();
           }}
+        /> */}
+
+        <AntDesign
+          name="pluscircle"
+          size={25}
+          style={EditProfileStyl.plusIcon}
+          onPress={() => {
+            rbRef.current.open();
+          }}
         />
+        <RBSheet
+          ref={rbRef}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          height={250}
+          animationType="fade"
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transprent',
+              backfaceVisibility: 'visible',
+            },
+            draggableIcon: {
+              backgroundColor: 'black',
+            },
+            container: {
+              borderTopStartRadius: 20,
+              borderTopEndRadius: 20,
+            },
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingStart: 20,
+              backgroundColor: 'lightcoral',
+              borderRadius: 10,
+              width: '90%',
+              padding: 5,
+              height: '18%',
+              marginHorizontal: 20,
+              marginTop: 10,
+              alignItems: 'center',
+              margin: 10,
+            }}>
+            <Fontisto name="picture" size={25} color="white" />
+            <TouchableOpacity onPress={selectImage}>
+              <Text
+                style={{
+                  paddingStart: 20,
+                  color: 'black',
+                  fontSize: 15,
+                  paddingTop: 5,
+                }}>
+                SELECT THE PICTURE
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingStart: 20,
+              backgroundColor: 'lightcoral',
+              borderRadius: 10,
+              width: '90%',
+              padding: 5,
+              height: '18%',
+              marginHorizontal: 20,
+              alignItems: 'center',
+              margin: 10,
+            }}>
+            <Entypo name="camera" size={30} color="white" />
+            <TouchableOpacity
+              onPress={() => {
+                selectPicFromCamera();
+              }}>
+              <Text
+                style={{
+                  paddingStart: 20,
+                  color: 'black',
+                  fontSize: 15,
+                  paddingTop: 5,
+                }}>
+                CAMERA
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </RBSheet>
       </View>
       {/*  MODAL TO DISPLAY FULL SIZE PROPIC  */}
       <Modal transparent={true} visible={isModalVisible}>
